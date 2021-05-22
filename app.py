@@ -101,11 +101,11 @@ def verification(get_name_upload, get_name_database):
     f, axarr = plt.subplots(1, 2)
     axarr[0].imshow(img4)
     axarr[1].imshow(img5)
-    plt.show()
+    # plt.show()
     # Plot matches
     img3 = cv2.drawMatches(img1, kp1, img2, kp2, matches, flags=2, outImg=None)
-    plt.imshow(img3)
-    plt.show()
+    # plt.imshow(img3)
+    # plt.show()
 
     # Calcula Score
     score = 0
@@ -153,9 +153,9 @@ def upload_file():
 
 if __name__ == "__main__":
     try:
-        arquivos = os.listdir("database")
-        print(arquivos)
-        print(os.listdir("uploads"))
+        # arquivos = os.listdir("database")
+        # print(arquivos)
+        # print(os.listdir("uploads"))
         app.run(debug=True)
     except:
         raise
