@@ -4,14 +4,14 @@ import matplotlib.pyplot as plt
 import numpy
 from skimage.morphology import skeletonize
 from enhance import image_enhance
-from flask import Flask, flash, render_template, request, redirect, url_for
+from flask import Flask, flash, render_template, request, redirect, url_for, Response
 from werkzeug.utils import secure_filename 
 import json
 
 
-os.chdir(r"D:\Documents\PycharmProjects\Bio Reader")
+# os.chdir(r"D:\Documents\PycharmProjects\Bio Reader")
 
-UPLOAD_FOLDER = 'D:\\Documents\\PycharmProjects\\Bio Reader\\uploads'
+UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'tif'}
 
 app = Flask(__name__, template_folder="template", static_folder="public", static_url_path="")
@@ -130,47 +130,29 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-@app.route("/upload_file", methods=['GET', 'POST'])
+@app.route("/upload_file", methods=['POST'])
 def upload_file():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            nome_aquivo_upload = filename
-            # print(nome_aquivo_upload)
-            lista = os.listdir("database")
-            resultado_verification = json.dumps({"return":False})
-            for nome_aquivo_database in range(len(lista)):
-                print(nome_aquivo_upload, lista[nome_aquivo_database])
-                # print(resultado_verification)
-                if verification(nome_aquivo_upload, lista[nome_aquivo_database]) is True:
-                # if  verification is True:
-                    resultado_verification = json.dumps({"return":True})
-            return resultado_verification
-            return redirect(url_for('upload_file', name=filename))
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
-    '''
+    file = request.files['file']
+    
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        nome_aquivo_upload = filename
+        
+        lista = os.listdir("database")
+        
+        for nome_aquivo_database in range(len(lista)):
+        
+            if  verification(nome_aquivo_upload, lista[nome_aquivo_database]):
+                return json.dumps({"retorno":True})
+        return Response(
+            "Não reconhecido",
+            status=400,
+        )
+
 
 if __name__ == "__main__":
     try:
-        # print(os.listdir("database"))
         arquivos = os.listdir("database")
         print(arquivos)
         print(os.listdir("uploads"))
