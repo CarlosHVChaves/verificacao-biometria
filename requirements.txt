@@ -1,0 +1,6 @@
+numpy~=1.16.6
+matplotlib~=3.4.2
+opencv-python~=4.5.2.52
+scikit-image~=0.18.1
+scipy~=1.6.3
+Flask~=2.0.0
