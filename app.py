@@ -149,12 +149,13 @@ def upload_file():
             nome_aquivo_upload = filename
             # print(nome_aquivo_upload)
             lista = os.listdir("database")
-            resultado_verification = json.dumps({"retorno":False})
+            resultado_verification = json.dumps({"return":False})
             for nome_aquivo_database in range(len(lista)):
                 print(nome_aquivo_upload, lista[nome_aquivo_database])
-                verification(nome_aquivo_upload, lista[nome_aquivo_database])
-                if  verification is True:
-                    resultado_verification = json.dumps({"retorno":True})
+                # print(resultado_verification)
+                if verification(nome_aquivo_upload, lista[nome_aquivo_database]) is True:
+                # if  verification is True:
+                    resultado_verification = json.dumps({"return":True})
             return resultado_verification
             return redirect(url_for('upload_file', name=filename))
     return '''
