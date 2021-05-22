@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 import json
 
 
-# os.chdir(r"D:\Documents\PycharmProjects\Bio Reader")
+os.chdir(r"D:\Documents\GitHub\verificacao_biometria")
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'tif'}
@@ -101,11 +101,11 @@ def verification(get_name_upload, get_name_database):
     f, axarr = plt.subplots(1, 2)
     axarr[0].imshow(img4)
     axarr[1].imshow(img5)
-    # plt.show()
+    plt.show()
     # Plot matches
     img3 = cv2.drawMatches(img1, kp1, img2, kp2, matches, flags=2, outImg=None)
     plt.imshow(img3)
-    # plt.show()
+    plt.show()
 
     # Calcula Score
     score = 0
